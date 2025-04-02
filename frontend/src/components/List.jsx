@@ -1,5 +1,5 @@
 import React from "react";
-import { Badge, Trash, BadgeCheck } from "lucide-react";
+import { Badge, Trash, BadgeCheck, Pencil } from "lucide-react";
 
 const List = ({ todos, setTodos }) => {
   const toggleChange = (id) => {
@@ -14,13 +14,23 @@ const List = ({ todos, setTodos }) => {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
+  const handleUpdate = (id) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) =>
+        todo.id == id
+          ? { ...todo, IsEditing: true }
+          : { ...todo, IsEditing: false }
+      )
+    );
+  };
+
   return (
-    <div className="flex justify-center items-center mt-[100px] font-prp">
+    <div className="flex justify-center items-center mt-[100px] font-prp ">
       <ul className="min-w-[70%] flex flex-col gap-y-2">
         {todos.map((todo) => (
           <li
             key={todo.id}
-            className="p-3 bg-black text-white flex justify-between gap-2 text-[17px]"
+            className="p-3 bg-black text-white flex justify-between gap-2 text-[17px] rounded-2xl"
           >
             <div className="flex gap-2">
               <span
@@ -33,13 +43,26 @@ const List = ({ todos, setTodos }) => {
                   <BadgeCheck size={22} className="text-blue-400" />
                 )}
               </span>{" "}
-              {todo.text}
+              <span
+                className={`${
+                  todo.IsDone
+                    ? "no-underline"
+                    : "line-through decoration-3 decoration-red-700"
+                }`}
+              >
+                {todo.text}
+              </span>
             </div>
-            <span
-              onClick={() => handleDelete(todo.id)}
-              className="cursor-pointer pointer-events-auto"
-            >
-              <Trash className="hover:text-red-700" />
+
+            <span className="flex gap-4">
+              <Pencil
+                onClick={() => handleUpdate(todo.id)}
+                className="hover:text-yellow-300 cursor-pointer"
+              />
+              <Trash
+                onClick={() => handleDelete(todo.id)}
+                className="hover:text-red-700 cursor-pointer"
+              />
             </span>
           </li>
         ))}

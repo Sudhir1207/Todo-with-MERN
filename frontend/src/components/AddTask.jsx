@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 const AddTask = ({ value, setValue, todos, setTodos }) => {
-  // useEffect({}, []);
-
   const handleChange = (e) => {
     console.log(e.target.value);
     setValue(e.target.value);
@@ -20,13 +18,14 @@ const AddTask = ({ value, setValue, todos, setTodos }) => {
         id: prevTodos.length + 1,
         text: value,
         IsDone: true,
+        IsEditing: false,
       },
     ]);
     setValue("");
   };
 
   useEffect(() => {
-    console.log(todos);
+    localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
   return (
@@ -44,7 +43,7 @@ const AddTask = ({ value, setValue, todos, setTodos }) => {
         />
         <button
           onClick={handleClick}
-          className="bg-black text-white p-4 rounded-l-none rounded-3xl font-prp"
+          className="bg-black text-white p-4 rounded-l-none rounded-3xl font-prp hover:text-yellow-400"
         >
           Add
         </button>
