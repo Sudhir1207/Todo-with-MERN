@@ -28,7 +28,7 @@ const UpdateTodo = ({ todos, setTodos }) => {
   };
 
   return (
-    <div className="fixed px-2 py-1 inset-15 items-center justify-center bg-white/20 backdrop-blur-lg text-white mt-4 w-[60%] flex mx-auto p-3 rounded-4xl z-10 .popup">
+    <div className="fixed inset-0 items-center justify-center bg-white/20 backdrop-blur-lg text-white sm:w-[100%] md:w-[80%] flex mx-auto z-10 .popup">
       <input
         type="text"
         value={newText}
