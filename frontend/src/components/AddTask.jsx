@@ -10,6 +10,12 @@ const AddTask = ({ value, setValue, todos, setTodos }) => {
     console.log(todos);
   }, [todos]);
 
+  const handleKeydown = (e) => {
+    if (e.key == "Enter") {
+      handleClick(e);
+    }
+  };
+
   const handleClick = (e) => {
     e.preventDefault();
     setTodos((prevTodos) => [
@@ -40,6 +46,7 @@ const AddTask = ({ value, setValue, todos, setTodos }) => {
           placeholder="enter todos"
           value={value}
           onChange={handleChange}
+          onKeyDown={handleKeydown}
         />
         <button
           onClick={handleClick}
