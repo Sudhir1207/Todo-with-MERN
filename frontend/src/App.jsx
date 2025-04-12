@@ -1,14 +1,25 @@
 import AddTask from "./components/AddTask";
 import List from "./components/List";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import UpdateTodo from "./components/UpdateTodo";
 
 function App() {
   const [value, setValue] = useState("");
-  const [todos, setTodos] = useState(() => {
-    const savedTodos = localStorage.getItem("todos");
-    return savedTodos ? JSON.parse(savedTodos) : [];
-  });
+  const [todos, setTodos] = useState([]);
+
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/todos");
+        const data = await res.json();
+        setTodos(data);
+      } catch (error) {
+        console.log("Error fetching todos", error.message);
+      }
+    };
+
+    fetchTodos();
+  }, []);
   return (
     <div className="sm:w-[70%] md:w-[80%] min-h-screen mx-auto bg-gray-400">
       <AddTask

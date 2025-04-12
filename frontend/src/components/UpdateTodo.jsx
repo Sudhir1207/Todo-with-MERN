@@ -15,15 +15,32 @@ const UpdateTodo = ({ todos, setTodos }) => {
     setNewText(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setTodos((prevTodos) =>
-      prevTodos.map((todo) =>
-        currentTodo.id == todo.id
-          ? { ...todo, text: newText, IsEditing: false }
-          : todo
-      )
-    );
+
+    if (!newText.trim()) return;
+
+    try {
+      const res = await fetch(
+        `http://localhost:8000/api/todos/${currentTodo._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: newText }),
+        }
+      );
+
+      const updated = await res.json();
+      setTodos((prevTodos) =>
+        prevTodos.map((todo) =>
+          todo._id === updated._id ? { ...updated, IsEditing: false } : todo
+        )
+      );
+    } catch (error) {
+      console.log("Error in updating", error.message);
+    }
   };
 
   return (

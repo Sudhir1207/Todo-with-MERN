@@ -16,18 +16,30 @@ const AddTask = ({ value, setValue, todos, setTodos }) => {
     }
   };
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
-    setTodos((prevTodos) => [
-      ...prevTodos,
-      {
-        id: prevTodos.length + 1,
-        text: value,
-        IsDone: false,
-        IsEditing: false,
-      },
-    ]);
-    setValue("");
+
+    if (!value.trim()) return;
+
+    try {
+      const res = await fetch("http://localhost:8000/api/todos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          text: value,
+          IsDone: false,
+          IsEditing: false,
+        }),
+      });
+
+      const newTodo = await res.json();
+      setTodos((prev) => [...prev, newTodo]);
+      setValue("");
+    } catch (error) {
+      console.error("Error in posting", error.message);
+    }
   };
 
   useEffect(() => {
