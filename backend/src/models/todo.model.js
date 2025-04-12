@@ -7,7 +7,11 @@ const todoSchema = new mongoose.Schema({
   },
   IsDone: {
     type: Boolean,
-    default: true,
+    default: false,
+  },
+  IsEditing: {
+    type: Boolean,
+    default: false,
   },
 });
 

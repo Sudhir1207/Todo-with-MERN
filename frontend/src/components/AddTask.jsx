@@ -23,7 +23,7 @@ const AddTask = ({ value, setValue, todos, setTodos }) => {
       {
         id: prevTodos.length + 1,
         text: value,
-        IsDone: true,
+        IsDone: false,
         IsEditing: false,
       },
     ]);
@@ -43,7 +43,7 @@ const AddTask = ({ value, setValue, todos, setTodos }) => {
         <input
           type="text"
           className="bg-white w-[50%] rounded-3xl rounded-r-none p-3 font-prp text-gray-900 focus:outline-none border-4 border-r-0"
-          placeholder="enter todos"
+          placeholder="Enter to-do's"
           value={value}
           onChange={handleChange}
           onKeyDown={handleKeydown}

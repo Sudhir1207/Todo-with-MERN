@@ -2,35 +2,51 @@ import express from "express";
 import Todo from "../models/todo.model.js";
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.send({ message: "Naan dhaan da leo" });
-});
-
-router.post("/add", async (req, res) => {
+// get all posts
+router.get("/", async (req, res) => {
   try {
-    const { text } = req.body;
-    const newTodo = new Todo({ text });
-    await newTodo.save();
-    res.status(201).json({ message: "Todo Created: ", newTodo });
+    const todos = await Todo.find();
+    res.json(todos);
   } catch (error) {
-    console.error("Error in adding todo: ", error.message);
-    res.status(500).json({ message: "Failed to add todo" });
+    res.status(500).json({ message: error.message });
   }
 });
 
-router.put("/toggle/:id", async (req, res) => {
+//for creating a todo
+router.post("/", async (req, res) => {
   try {
-    const todo = await Todo.findById(req.params.id);
-    if (!todo) {
-      return res.status(401).json({ message: "Todo not found" });
-    }
-
-    todo.IsDone = !todo.IsDone;
-    await todo.save();
-    res.status(200).json({ message: "toggled", updatedTodo: todo });
+    const newTodo = new Todo(req.body);
+    const savedTodo = await newTodo.save();
+    res.json(savedTodo);
   } catch (error) {
-    console.error("Toggle error:", error.message);
-    res.status(500).json({ message: "Failed to toggle status" });
+    res.status(400).json({ message: error.message });
   }
 });
+
+//for updating a todo
+router.put("/:id", async (req, res) => {
+  try {
+    const updatedTodo = await Todo.findByIdAndUpdate(
+      req.params.id,
+      req,
+      body,
+      { text: req.body.text },
+      { new: true }
+    );
+    res.json(updatedTodo);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
+//for deleting a todo
+router.delete("/:id", async (req, res) => {
+  try {
+    await Todo.findByIdAndDelete(req.params.id);
+    res.json(`item ${req.params.id} deleted`);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 export default router;

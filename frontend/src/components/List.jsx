@@ -37,7 +37,7 @@ const List = ({ todos, setTodos }) => {
                 onClick={() => toggleChange(todo.id)}
                 className={`cursor-pointer pointer-events-auto`}
               >
-                {todo.IsDone ? (
+                {!todo.IsDone ? (
                   <Badge size={22} />
                 ) : (
                   <BadgeCheck size={22} className="text-blue-400" />
@@ -45,7 +45,7 @@ const List = ({ todos, setTodos }) => {
               </span>{" "}
               <span
                 className={`${
-                  todo.IsDone
+                  !todo.IsDone
                     ? "no-underline"
                     : "line-through decoration-3 decoration-red-700"
                 }`}

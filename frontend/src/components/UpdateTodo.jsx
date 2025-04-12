@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { use } from "react";
 
 const UpdateTodo = ({ todos, setTodos }) => {
   //   const handleSubmit = (e) => {};
